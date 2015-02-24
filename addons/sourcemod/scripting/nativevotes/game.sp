@@ -205,10 +205,10 @@
 // Generic functions
 // 
 
-new g_VoteController = -1;
-new g_bUserBuf = false;
+int g_VoteController = -1;
+bool g_bUserBuf = false;
 
-bool:Game_IsGameSupported(String:engineName[]="", maxlength=0)
+bool Game_IsGameSupported(char[] engineName="", int maxlength=0)
 {
 	g_EngineVersion = GetEngineVersion();
 	g_bUserBuf = GetFeatureStatus(FeatureType_Native, "GetUserMessageType") == FeatureStatus_Available && GetUserMessageType() == UM_Protobuf;
@@ -230,9 +230,9 @@ bool:Game_IsGameSupported(String:engineName[]="", maxlength=0)
 	return false;
 }
 
-bool:CheckVoteController()
+bool CheckVoteController()
 {
-	new entity = -1;
+	int entity = -1;
 	if (g_VoteController != -1)
 	{
 		entity = EntRefToEntIndex(g_VoteController);
@@ -254,9 +254,9 @@ bool:CheckVoteController()
 
 // All logic for choosing a game-specific function should happen here.
 // There should be one per function in the game shared and specific sections
-Game_ParseVote(const String:option[])
+void Game_ParseVote(const char[] option)
 {
-	new item = NATIVEVOTES_VOTE_INVALID;
+	int item = NATIVEVOTES_VOTE_INVALID;
 	
 	switch(g_EngineVersion)
 	{
@@ -275,7 +275,7 @@ Game_ParseVote(const String:option[])
 
 }
 
-Game_GetMaxItems()
+void Game_GetMaxItems()
 {
 	switch (g_EngineVersion)
 	{
@@ -293,9 +293,9 @@ Game_GetMaxItems()
 	return 0; // Here to prevent warnings
 }
 
-bool:Game_CheckVoteType(NativeVotesType:type)
+bool Game_CheckVoteType(NativeVotesType type)
 {
-	new bool:returnVal = false;
+	bool returnVal = false;
 	
 	switch(g_EngineVersion)
 	{
@@ -323,9 +323,9 @@ bool:Game_CheckVoteType(NativeVotesType:type)
 	return returnVal;
 }
 
-bool:Game_CheckVotePassType(NativeVotesPassType:type)
+bool Game_CheckVotePassType(NativeVotesPassType type)
 {
-	new bool:returnVal = false;
+	bool returnVal = false;
 	
 	switch(g_EngineVersion)
 	{
@@ -353,20 +353,20 @@ bool:Game_CheckVotePassType(NativeVotesPassType:type)
 	return returnVal;
 }
 
-bool:Game_DisplayVoteToOne(Handle:vote, client)
+bool Game_DisplayVoteToOne(NativeVote vote, int client)
 {
 	if (g_bCancelled)
 	{
 		return false;
 	}
 	
-	new clients[1];
+	int clients[1];
 	clients[0] = client;
 	
 	return Game_DisplayVote(vote, clients, 1);
 }
 
-bool:Game_DisplayVote(Handle:vote, clients[], num_clients)
+bool Game_DisplayVote(NativeVote vote, int[] clients, int num_clients)
 {
 	if (g_bCancelled)
 	{
@@ -394,7 +394,7 @@ bool:Game_DisplayVote(Handle:vote, clients[], num_clients)
 	return true;
 }
 
-Game_DisplayVoteFail(Handle:vote, NativeVotesFailType:reason, client=0)
+void Game_DisplayVoteFail(NativeVote vote, NativeVotesFailType reason, int client=0)
 {
 	switch(g_EngineVersion)
 	{
@@ -418,7 +418,7 @@ Game_DisplayVoteFail(Handle:vote, NativeVotesFailType:reason, client=0)
 	}
 }
 
-Game_DisplayVotePass(Handle:vote, const String:details[], client=0)
+void Game_DisplayVotePass(NativeVote vote, const char[] details, int client=0)
 {
 	switch (g_EngineVersion)
 	{
@@ -442,7 +442,7 @@ Game_DisplayVotePass(Handle:vote, const String:details[], client=0)
 	}
 }
 
-Game_DisplayVotePassEx(Handle:vote, NativeVotesPassType:passType, const String:details[], client=0)
+void Game_DisplayVotePassEx(NativeVote vote, NativeVotesPassType passType, const char[] details, int client=0)
 {
 	switch (g_EngineVersion)
 	{
@@ -466,7 +466,7 @@ Game_DisplayVotePassEx(Handle:vote, NativeVotesPassType:passType, const String:d
 	}
 }
 
-Game_DisplayVotePassCustom(Handle:vote, const String:translation[], client)
+void Game_DisplayVotePassCustom(NativeVote vote, const char[] translation, int client)
 {
 	switch (g_EngineVersion)
 	{
@@ -492,7 +492,7 @@ Game_DisplayVotePassCustom(Handle:vote, const String:translation[], client)
 	}
 }
 
-Game_DisplayCallVoteFail(client, NativeVotesCallFailType:reason, time)
+void Game_DisplayCallVoteFail(int client, NativeVotesCallFailType reason, int time)
 {
 	switch (g_EngineVersion)
 	{
@@ -508,7 +508,7 @@ Game_DisplayCallVoteFail(client, NativeVotesCallFailType:reason, time)
 	}
 }
 
-Game_ClientSelectedItem(Handle:vote, client, item)
+void Game_ClientSelectedItem(NativeVote vote, int client, int item)
 {
 	switch(g_EngineVersion)
 	{
@@ -535,7 +535,7 @@ Game_ClientSelectedItem(Handle:vote, client, item)
 	}
 }
 
-Game_UpdateVoteCounts(Handle:hVoteCounts, totalClients)
+void Game_UpdateVoteCounts(ArrayList hVoteCounts, int totalClients)
 {
 	switch(g_EngineVersion)
 	{
@@ -551,29 +551,7 @@ Game_UpdateVoteCounts(Handle:hVoteCounts, totalClients)
 	}
 }
 
-/*
-Game_DisplayVoteSetup(client, const NativeVotesType:voteTypes[])
-{
-	switch (g_EngineVersion)
-	{
-		case Engine_Left4Dead:
-		{
-			//L4D_DisplayVoteSetup(client, voteTypes);
-		}
-		
-		case Engine_Left4Dead2:
-		{
-			//L4D2_DisplayVoteSetup(client, voteTypes);
-		}
-		
-		case Engine_CSGO, Engine_TF2:
-		{
-			TF2CSGO_DisplayVoteSetup(client, voteTypes);
-		}
-	}
-}
-*/
-Game_UpdateClientCount(num_clients)
+void Game_UpdateClientCount(int num_clients)
 {
 	switch(g_EngineVersion)
 	{
@@ -589,7 +567,7 @@ Game_UpdateClientCount(num_clients)
 	}
 }
 
-Game_ResetVote()
+void Game_ResetVote()
 {
 	switch(g_EngineVersion)
 	{
@@ -605,7 +583,7 @@ Game_ResetVote()
 	}
 }
 
-Game_VoteYes(client)
+void Game_VoteYes(int client)
 {
 	switch (g_EngineVersion)
 	{
@@ -621,7 +599,7 @@ Game_VoteYes(client)
 	}
 }
 
-Game_VoteNo(client)
+void Game_VoteNo(int client)
 {
 	switch (g_EngineVersion)
 	{
@@ -641,7 +619,7 @@ Game_VoteNo(client)
 // L4D/L4D2 shared functions
 
 // NATIVEVOTES_VOTE_INVALID means parse failed
-L4DL4D2_ParseVote(const String:option[])
+int L4DL4D2_ParseVote(const char[] option)
 {
 	if (StrEqual(option, "Yes", false))
 	{
@@ -655,9 +633,9 @@ L4DL4D2_ParseVote(const String:option[])
 	return NATIVEVOTES_VOTE_INVALID;
 }
 
-L4DL4D2_ClientSelectedItem(client, item)
+void L4DL4D2_ClientSelectedItem(int client, int item)
 {
-	new choice;
+	int choice;
 	
 	if (item == NATIVEVOTES_VOTE_NO)
 	{
@@ -673,15 +651,15 @@ L4DL4D2_ClientSelectedItem(client, item)
 	EndMessage();
 }
 
-L4DL4D2_UpdateVoteCounts(Handle:votes, totalClients)
+void L4DL4D2_UpdateVoteCounts(ArrayList votes, int totalClients)
 {
-	new yesVotes = GetArrayCell(votes, NATIVEVOTES_VOTE_YES);
-	new noVotes = GetArrayCell(votes, NATIVEVOTES_VOTE_NO);
-	new Handle:changeEvent = CreateEvent("vote_changed");
-	SetEventInt(changeEvent, "yesVotes", yesVotes);
-	SetEventInt(changeEvent, "noVotes", noVotes);
-	SetEventInt(changeEvent, "potentialVotes", totalClients);
-	FireEvent(changeEvent);
+	new yesVotes = votes.GetCell(NATIVEVOTES_VOTE_YES);
+	new noVotes = votes.GetCell(NATIVEVOTES_VOTE_NO);
+	new Event changeEvent = CreateEvent("vote_changed");
+	changeEvent.SetInt("yesVotes", yesVotes);
+	changeEvent.SetInt("noVotes", noVotes);
+	changeEvent.SetInt("potentialVotes", totalClients);
+	changeEvent.Fire();
 	
 	if (CheckVoteController())
 	{
@@ -690,7 +668,7 @@ L4DL4D2_UpdateVoteCounts(Handle:votes, totalClients)
 	}
 }
 
-L4DL4D2_UpdateClientCount(num_clients)
+void L4DL4D2_UpdateClientCount(int num_clients)
 {
 	if (CheckVoteController())
 	{
@@ -698,16 +676,16 @@ L4DL4D2_UpdateClientCount(num_clients)
 	}
 }
 
-L4DL4D2_DisplayCallVoteFail(client, NativeVotesCallFailType:reason)
+void L4DL4D2_DisplayCallVoteFail(int client, NativeVotesCallFailType reason)
 {
-	new Handle:callVoteFail = StartMessageOne("CallVoteFailed", client, USERMSG_RELIABLE);
+	Handle callVoteFail = StartMessageOne("CallVoteFailed", client, USERMSG_RELIABLE);
 
-	BfWriteByte(callVoteFail, _:reason);
+	BfWriteByte(callVoteFail, view_as<int>(reason));
 	
 	EndMessage();
 }
 
-L4DL4D2_VoteTypeToTranslation(NativeVotesType:voteType, String:translation[], maxlength)
+void L4DL4D2_VoteTypeToTranslation(NativeVotesType voteType, char[] translation, int maxlength)
 {
 	switch(voteType)
 	{
@@ -753,7 +731,7 @@ L4DL4D2_VoteTypeToTranslation(NativeVotesType:voteType, String:translation[], ma
 	}
 }
 
-L4DL4D2_VotePassToTranslation(NativeVotesPassType:passType, String:translation[], maxlength)
+void L4DL4D2_VotePassToTranslation(NativeVotesPassType passType, char[] translation, int maxlength)
 {
 	switch(passType)
 	{
@@ -804,7 +782,7 @@ L4DL4D2_VotePassToTranslation(NativeVotesPassType:passType, String:translation[]
 	}
 }
 
-L4DL4D2_ResetVote()
+void L4DL4D2_ResetVote()
 {
 	if (CheckVoteController())
 	{
@@ -821,7 +799,7 @@ L4DL4D2_ResetVote()
 // L4D functions
 
 /*
-L4D_ClientSelectedItem(Handle:vote, client, item)
+void L4D_ClientSelectedItem(NativeVote vote, int client, int item)
 {
 	if (item > NATIVEVOTES_VOTE_INVALID && item <= Game_GetMaxItems())
 	{
@@ -856,25 +834,25 @@ L4D_ClientSelectedItem(Handle:vote, client, item)
 }
 */
 
-L4D_DisplayVote(Handle:vote, num_clients)
+void L4D_DisplayVote(NativeVote vote, int num_clients)
 {
-	new String:translation[TRANSLATION_LENGTH];
+	char translation[TRANSLATION_LENGTH];
 
-	new NativeVotesType:voteType = Data_GetType(vote);
+	NativeVotesType voteType = Data_GetType(vote);
 	
 	L4DL4D2_VoteTypeToTranslation(voteType, translation, sizeof(translation));
 
-	decl String:details[MAX_VOTE_DETAILS_LENGTH];
+	char details[MAX_VOTE_DETAILS_LENGTH];
 	Data_GetDetails(vote, details, MAX_VOTE_DETAILS_LENGTH);
 	
-	new team = Data_GetTeam(vote);
+	int team = Data_GetTeam(vote);
 	
-	new Handle:voteStart = CreateEvent("vote_started");
-	SetEventInt(voteStart, "team", team);
-	SetEventInt(voteStart, "initiator", Data_GetInitiator(vote));
-	SetEventString(voteStart, "issue", translation);
-	SetEventString(voteStart, "param1", details);
-	FireEvent(voteStart);
+	Event voteStart = CreateEvent("vote_started");
+	voteStart.SetInt("team", team);
+	voteStart.SetInt("initiator", Data_GetInitiator(vote));
+	voteStart.SetString("issue", translation);
+	voteStart.SetString("param1", details);
+	voteStart.Fire();
 	
 	if (CheckVoteController())
 	{
@@ -887,46 +865,46 @@ L4D_DisplayVote(Handle:vote, num_clients)
 	}
 }
 
-L4D_VoteEnded()
+void L4D_VoteEnded()
 {
-	new Handle:endEvent = CreateEvent("vote_ended");
-	FireEvent(endEvent);
+	new Event endEvent = CreateEvent("vote_ended");
+	endEvent.Fire();
 }
 
-L4D_DisplayVotePass(Handle:vote, const String:details[])
+void L4D_DisplayVotePass(NativeVote vote, const char[] details)
 {
 	L4D_DisplayVotePassEx(vote, VoteTypeToVotePass(Data_GetType(vote)), details);
 }
 
-L4D_DisplayVotePassEx(Handle:vote, NativeVotesPassType:passType, const String:details[])
+void L4D_DisplayVotePassEx(NativeVote vote, NativeVotesPassType passType, const char[] details)
 {
-	decl String:translation[TRANSLATION_LENGTH];
+	char translation[TRANSLATION_LENGTH];
 	L4DL4D2_VotePassToTranslation(passType, translation, sizeof(translation));
 
 	L4D_VotePass(vote, translation, details);
 }
 
-L4D_VotePass(Handle:vote, const String:translation[], const String:details[])
+void L4D_VotePass(NativeVote vote, const char[] translation, const char[] details)
 {
 	L4D_VoteEnded();
 	
-	new Handle:passEvent = CreateEvent("vote_passed");
-	SetEventString(passEvent, "details", translation);
-	SetEventString(passEvent, "param1", details);
-	SetEventInt(passEvent, "team", Data_GetTeam(vote));
-	FireEvent(passEvent);
+	Event passEvent = CreateEvent("vote_passed");
+	passEvent.SetString("details", translation);
+	passEvent.SetString("param1", details);
+	passEvent.SetInt("team", Data_GetTeam(vote));
+	passEvent.Fire();
 }
 
-L4D_DisplayVoteFail(Handle:vote)
+void L4D_DisplayVoteFail(NativeVote vote)
 {
 	L4D_VoteEnded();
 
-	new Handle:failEvent = CreateEvent("vote_failed");
-	SetEventInt(failEvent, "team", Data_GetTeam(vote));
-	FireEvent(failEvent);
+	Event failEvent = CreateEvent("vote_failed");
+	failEvent.SetInt("team", Data_GetTeam(vote));
+	failEvent.Fire();
 }
 
-bool:L4D_CheckVoteType(NativeVotesType:voteType)
+bool L4D_CheckVoteType(NativeVotesType voteType)
 {
 	switch(voteType)
 	{
@@ -941,7 +919,7 @@ bool:L4D_CheckVoteType(NativeVotesType:voteType)
 	return false;
 }
 
-bool:L4D_CheckVotePassType(NativeVotesPassType:passType)
+bool L4D_CheckVotePassType(NativeVotesPassType passType)
 {
 	switch(passType)
 	{
@@ -959,18 +937,18 @@ bool:L4D_CheckVotePassType(NativeVotesPassType:passType)
 //----------------------------------------------------------------------------
 // L4D2 functions
 
-L4D2_DisplayVote(Handle:vote, clients[], num_clients)
+void L4D2_DisplayVote(NativeVote vote, int[] clients, int num_clients)
 {
-	new String:translation[TRANSLATION_LENGTH];
+	char translation[TRANSLATION_LENGTH];
 
-	new NativeVotesType:voteType = Data_GetType(vote);
+	NativeVotesType voteType = Data_GetType(vote);
 	
 	L4DL4D2_VoteTypeToTranslation(voteType, translation, sizeof(translation));
 
-	decl String:details[MAX_VOTE_DETAILS_LENGTH];
+	char details[MAX_VOTE_DETAILS_LENGTH];
 	
-	new team = Data_GetTeam(vote);
-	new bool:bCustom = false;
+	int team = Data_GetTeam(vote);
+	bool bCustom = false;
 	
 	switch (voteType)
 	{
@@ -996,21 +974,21 @@ L4D2_DisplayVote(Handle:vote, clients[], num_clients)
 		}
 	}
 	
-	new initiator = Data_GetInitiator(vote);
-	new String:initiatorName[MAX_NAME_LENGTH];
+	int initiator = Data_GetInitiator(vote);
+	char initiatorName[MAX_NAME_LENGTH];
 
 	if (initiator != NATIVEVOTES_SERVER_INDEX && initiator > 0 && initiator <= MaxClients && IsClientInGame(initiator))
 	{
 		GetClientName(initiator, initiatorName, MAX_NAME_LENGTH);
 	}
 
-	for (new i = 0; i < num_clients; ++i)
+	for (int i = 0; i < num_clients; ++i)
 	{
 		g_newMenuTitle[0] = '\0';
 		
-		new MenuAction:actions = Data_GetActions(vote);
+		MenuAction actions = Data_GetActions(vote);
 		
-		new Action:changeTitle = Plugin_Continue;
+		Action changeTitle = Plugin_Continue;
 		if (bCustom && actions & MenuAction_Display)
 		{
 			g_curDisplayClient = clients[i];
@@ -1019,7 +997,7 @@ L4D2_DisplayVote(Handle:vote, clients[], num_clients)
 		
 		g_curDisplayClient = 0;
 	
-		new Handle:voteStart = StartMessageOne("VoteStart", clients[i], USERMSG_RELIABLE);
+		Handle voteStart = StartMessageOne("VoteStart", clients[i], USERMSG_RELIABLE);
 		BfWriteByte(voteStart, team);
 		BfWriteByte(voteStart, initiator);
 		BfWriteString(voteStart, translation);
@@ -1046,14 +1024,14 @@ L4D2_DisplayVote(Handle:vote, clients[], num_clients)
 	}
 }
 
-L4D2_DisplayVotePass(Handle:vote, const String:details[], client=0)
+void L4D2_DisplayVotePass(NativeVote vote, const char[] details, int client=0)
 {
 	L4D2_DisplayVotePassEx(vote, VoteTypeToVotePass(Data_GetType(vote)), details, client);
 }
 
-L4D2_DisplayVotePassEx(Handle:vote, NativeVotesPassType:passType, const String:details[], client=0)
+L4D2_DisplayVotePassEx(NativeVote vote, NativeVotesPassType passType, const char[] details, int client=0)
 {
-	decl String:translation[TRANSLATION_LENGTH];
+	char translation[TRANSLATION_LENGTH];
 	
 	L4DL4D2_VotePassToTranslation(passType, translation, sizeof(translation));
 	
@@ -1076,9 +1054,9 @@ L4D2_DisplayVotePassEx(Handle:vote, NativeVotesPassType:passType, const String:d
 	}
 }
 
-L4D2_VotePass(Handle:vote, const String:translation[], const String:details[], client=0)
+void L4D2_VotePass(NativeVote vote, const char[] translation, const char[] details, int client=0)
 {
-	new Handle:votePass;
+	Handle votePass;
 	if (!client)
 	{
 		votePass = StartMessageAll("VotePass", USERMSG_RELIABLE);
@@ -1094,9 +1072,9 @@ L4D2_VotePass(Handle:vote, const String:translation[], const String:details[], c
 	EndMessage();
 }
 
-L4D2_DisplayVoteFail(Handle:vote, client=0)
+void L4D2_DisplayVoteFail(NativeVote vote, int client=0)
 {
-	new Handle:voteFailed;
+	Handle voteFailed;
 	if (!client)
 	{
 		voteFailed = StartMessageAll("VoteFail", USERMSG_RELIABLE);
@@ -1110,7 +1088,7 @@ L4D2_DisplayVoteFail(Handle:vote, client=0)
 	EndMessage();
 }
 
-bool:L4D2_CheckVoteType(NativeVotesType:voteType)
+bool L4D2_CheckVoteType(NativeVotesType voteType)
 {
 	switch(voteType)
 	{
@@ -1125,7 +1103,7 @@ bool:L4D2_CheckVoteType(NativeVotesType:voteType)
 	return false;
 }
 
-bool:L4D2_CheckVotePassType(NativeVotesPassType:passType)
+bool L4D2_CheckVotePassType(NativeVotesPassType passType)
 {
 	switch(passType)
 	{
@@ -1146,7 +1124,7 @@ bool:L4D2_CheckVotePassType(NativeVotesPassType:passType)
 // TF2 and CSGO functions are still together in case Valve moves TF2 to protobufs.
 
 // NATIVEVOTES_VOTE_INVALID means parse failed
-TF2CSGO_ParseVote(const String:option[])
+int TF2CSGO_ParseVote(const char[] option)
 {
 	// option1 <-- 7 characters exactly
 	if (strlen(option) != 7)
@@ -1157,29 +1135,29 @@ TF2CSGO_ParseVote(const String:option[])
 	return StringToInt(option[6]) - 1;
 }
 
-TF2CSGO_ClientSelectedItem(Handle:vote, client, item)
+void TF2CSGO_ClientSelectedItem(NativeVote vote, int client, int item)
 {
-	new Handle:castEvent = CreateEvent("vote_cast");
+	Event castEvent = CreateEvent("vote_cast");
 	
-	SetEventInt(castEvent, "team", Data_GetTeam(vote));
-	SetEventInt(castEvent, "entityid", client);
-	SetEventInt(castEvent, "vote_option", item);
-	FireEvent(castEvent);
+	castEvent.SetInt("team", Data_GetTeam(vote));
+	castEvent.SetInt("entityid", client);
+	castEvent.SetInt("vote_option", item);
+	castEvent.Fire();
 }
 
-TF2CSGO_UpdateVoteCounts(Handle:votes)
+void TF2CSGO_UpdateVoteCounts(NativeVote votes)
 {
 	if (CheckVoteController())
 	{
-		new size = GetArraySize(votes);
-		for (new i = 0; i < size; i++)
+		new size = votes.Length;
+		for (int i = 0; i < size; i++)
 		{
 			SetEntProp(g_VoteController, Prop_Send, "m_nVoteOptionCount", GetArrayCell(votes, i), 4, i);
 		}
 	}
 }
 
-TF2CSGO_UpdateClientCount(num_clients)
+void TF2CSGO_UpdateClientCount(int num_clients)
 {
 	if (CheckVoteController())
 	{
@@ -1187,16 +1165,16 @@ TF2CSGO_UpdateClientCount(num_clients)
 	}
 }
 
-TF2CSGO_DisplayVote(Handle:vote, clients[], num_clients)
+void TF2CSGO_DisplayVote(NativeVote vote, int[] clients, int num_clients)
 {
-	new NativeVotesType:voteType = Data_GetType(vote);
+	NativeVotesType voteType = Data_GetType(vote);
 	
-	new String:translation[TRANSLATION_LENGTH];
-	new String:otherTeamString[TRANSLATION_LENGTH];
-	new bool:bYesNo = true;
-	new bool:bCustom = false;
+	char translation[TRANSLATION_LENGTH];
+	char otherTeamString[TRANSLATION_LENGTH];
+	bool bYesNo = true;
+	bool bCustom = false;
 	
-	new String:details[MAX_VOTE_DETAILS_LENGTH];
+	char details[MAX_VOTE_DETAILS_LENGTH];
 	
 	switch (voteType)
 	{
@@ -1229,32 +1207,32 @@ TF2CSGO_DisplayVote(Handle:vote, clients[], num_clients)
 	// According to Source SDK 2013, vote_options is only sent for a multiple choice vote.
 	if (!bYesNo)
 	{
-		new Handle:optionsEvent = CreateEvent("vote_options");
+		Event optionsEvent = CreateEvent("vote_options");
 		
-		new maxCount = Data_GetItemCount(vote);
+		int maxCount = Data_GetItemCount(vote);
 		
-		for (new i = 0; i < maxCount; i++)
+		for (int i = 0; i < maxCount; i++)
 		{
-			decl String:option[8];
+			char option[8];
 			Format(option, sizeof(option), "%s%d", TF2CSGO_VOTE_PREFIX, i+1);
 			
-			decl String:display[TRANSLATION_LENGTH];
+			char display[TRANSLATION_LENGTH];
 			Data_GetItemDisplay(vote, i, display, sizeof(display));
-			SetEventString(optionsEvent, option, display);
+			optionsEvent.SetString(option, display);
 		}
-		SetEventInt(optionsEvent, "count", maxCount);
-		FireEvent(optionsEvent);
+		optionsEvent.SetInt("count", maxCount);
+		optionsEvent.Fire();
 	}
 	
-	new team = Data_GetTeam(vote);
+	int team = Data_GetTeam(vote);
 	
-	for (new i = 0; i < num_clients; ++i)
+	for (int i = 0; i < num_clients; ++i)
 	{
 		g_newMenuTitle[0] = '\0';
 		
-		new MenuAction:actions = Data_GetActions(vote);
+		MenuAction actions = Data_GetActions(vote);
 		
-		new Action:changeTitle = Plugin_Continue;
+		Action changeTitle = Plugin_Continue;
 		if (bCustom && actions & MenuAction_Display)
 		{
 			g_curDisplayClient = clients[i];
@@ -1262,35 +1240,35 @@ TF2CSGO_DisplayVote(Handle:vote, clients[], num_clients)
 		}
 		
 		g_curDisplayClient = 0;
-		new maxCount = Data_GetItemCount(vote);
+		int maxCount = Data_GetItemCount(vote);
 		
-		new Handle:optionsEvent = CreateEvent("vote_options");
-		for (new j = 0; j < maxCount; j++)
+		Event optionsEvent = CreateEvent("vote_options");
+		for (int j = 0; j < maxCount; j++)
 		{
-			decl String:option[8];
+			char option[8];
 			Format(option, sizeof(option), "%s%d", TF2CSGO_VOTE_PREFIX, j+1);
 			
-			decl String:display[TRANSLATION_LENGTH];
+			char display[TRANSLATION_LENGTH];
 			Data_GetItemDisplay(vote, j, display, TRANSLATION_LENGTH);
-			SetEventString(optionsEvent, option, display);
+			optionsEvent.SetString(option, display);
 		}
-		SetEventInt(optionsEvent, "count", maxCount);
-		FireEvent(optionsEvent);
+		optionsEvent.SetInt("count", maxCount);
+		optionsEvent.Fire();
 		
 		if (!bYesNo && actions & MenuAction_DisplayItem)
 		{
 			optionsEvent = CreateEvent("vote_options");
 			
-			for (new j = 0; j < maxCount; j++)
+			for (int j = 0; j < maxCount; j++)
 			{
-				new Action:changeItem = Plugin_Continue;
+				Action changeItem = Plugin_Continue;
 				g_curItemClient = clients[i];
 				g_newMenuItem[0] = '\0';
 				
 				changeItem = Action:DoAction(vote, MenuAction_DisplayItem, clients[i], j);
 				g_curItemClient = 0;
 				
-				decl String:option[8];
+				char option[8];
 				Format(option, sizeof(option), "%s%d", TF2CSGO_VOTE_PREFIX, j+1);
 				
 				decl String:display[TRANSLATION_LENGTH];
@@ -1302,46 +1280,48 @@ TF2CSGO_DisplayVote(Handle:vote, clients[], num_clients)
 				{
 					Data_GetItemDisplay(vote, j, display, sizeof(display));
 				}
-				SetEventString(optionsEvent, option, display);
+				optionsEvent.SetString(option, display);
 			}
-			SetEventInt(optionsEvent, "count", maxCount);
-			FireEvent(optionsEvent);
+			optionsEvent.SetInt("count", maxCount);
+			optionsEvent.Fire();
 		}
 		
-		new Handle:voteStart = StartMessageOne("VoteStart", clients[i], USERMSG_RELIABLE);
+		Handle voteStart = StartMessageOne("VoteStart", clients[i], USERMSG_RELIABLE);
 		
 		if(g_bUserBuf)
 		{
-			PbSetInt(voteStart, "team", team);
-			PbSetInt(voteStart, "ent_idx", Data_GetInitiator(vote));
-			PbSetString(voteStart, "disp_str", translation);
+			Protobuf voteStart = UserMessageToProtobuf(StartMessageOne("VoteStart", clients[i], USERMSG_RELIABLE));
+			voteStart.SetInt("team", team);
+			voteStart.SetInt("ent_idx", Data_GetInitiator(vote));
+			voteStart.SetString("disp_str", translation);
 			if (bCustom && changeTitle == Plugin_Changed)
 			{
-				PbSetString(voteStart, "details_str", g_newMenuTitle);
+				voteStart.SetString("details_str", g_newMenuTitle);
 			}
 			else
 			{
-				PbSetString(voteStart, "details_str", details);
+				voteStart.SetString("details_str", details);
 			}
-			PbSetBool(voteStart, "is_yes_no_vote", bYesNo);
-			PbSetString(voteStart, "other_team_str", otherTeamString);
+			voteStart.SetBool("is_yes_no_vote", bYesNo);
+			voteStart.SetString("other_team_str", otherTeamString);
 			// TODO: Need to look these values up. These values may correspond to the order votes show up in for VoteSetup
-			PbSetInt(voteStart, "vote_type", 0); // For now, set to 0 to block in-game votes
+			voteStart.SetInt("vote_type", 0); // For now, set to 0 to block in-game votes
 		}
 		else
 		{
-			BfWriteByte(voteStart, team);
-			BfWriteByte(voteStart, Data_GetInitiator(vote));
-			BfWriteString(voteStart, translation);
+			BfWrite voteStart = UserMessageToBfWrite(StartMessageOne("VoteStart", clients[i], USERMSG_RELIABLE));
+			voteStart.WriteByte(team);
+			voteStart.WriteByte(Data_GetInitiator(vote));
+			voteStart.WriteString(translation);
 			if (bCustom && changeTitle == Plugin_Changed)
 			{
-				BfWriteString(voteStart, g_newMenuTitle);
+				voteStart.WriteString(g_newMenuTitle);
 			}
 			else
 			{
-				BfWriteString(voteStart, details);
+				voteStart.WriteString(details);
 			}
-			BfWriteBool(voteStart, bYesNo);
+			voteStart.WriteBool(bYesNo);
 		}
 		EndMessage();
 	}
@@ -1351,7 +1331,7 @@ TF2CSGO_DisplayVote(Handle:vote, clients[], num_clients)
 	if (CheckVoteController())
 	{
 		SetEntProp(g_VoteController, Prop_Send, "m_iOnlyTeamToVote", team);
-		for (new i = 0; i < 5; i++)
+		for (int i = 0; i < 5; i++)
 		{
 			SetEntProp(g_VoteController, Prop_Send, "m_nVoteOptionCount", 0, _, i);
 		}
@@ -1362,14 +1342,14 @@ TF2CSGO_DisplayVote(Handle:vote, clients[], num_clients)
 	}
 }
 
-TF2CSGO_DisplayVotePass(Handle:vote, const String:details[], client=0)
+void TF2CSGO_DisplayVotePass(NativeVote vote, const char[] details, int client=0)
 {
 	TF2CSGO_DisplayVotePassEx(vote, VoteTypeToVotePass(Data_GetType(vote)), details, client);
 }
 
-TF2CSGO_DisplayVotePassEx(Handle:vote, NativeVotesPassType:passType, const String:details[], client=0)
+void TF2CSGO_DisplayVotePassEx(NativeVote vote, NativeVotesPassType passType, const char[] details, int client=0)
 {
-	decl String:translation[TRANSLATION_LENGTH];
+	char translation[TRANSLATION_LENGTH];
 	
 	switch(g_EngineVersion)
 	{
@@ -1387,9 +1367,9 @@ TF2CSGO_DisplayVotePassEx(Handle:vote, NativeVotesPassType:passType, const Strin
 	TF2CSGO_VotePass(vote, translation, details, client);
 }
 
-TF2CSGO_VotePass(Handle:vote, const String:translation[], const String:details[], client=0)
+void TF2CSGO_VotePass(NativeVote vote, const char[] translation, const char[] details, int client=0)
 {
-	new Handle:votePass = INVALID_HANDLE;
+	Handle votePass = null;
 	
 	if (!client)
 	{
@@ -1402,23 +1382,25 @@ TF2CSGO_VotePass(Handle:vote, const String:translation[], const String:details[]
 
 	if(g_bUserBuf)
 	{
-		PbSetInt(votePass, "team", Data_GetTeam(vote));
-		PbSetString(votePass, "disp_str", translation);
-		PbSetString(votePass, "details_str", details);
-		PbSetInt(votePass, "vote_type", 0); // Unknown, need to check values
+		Protobuf pbVotePass = UserMessageToProtobuf(votePass);
+		pbVotePass.SetInt("team", Data_GetTeam(vote));
+		pbVotePass.SetString("disp_str", translation);
+		pbVotePass.SetString("details_str", details);
+		pbVotePass.SetInt("vote_type", 0); // Unknown, need to check values
 	}
 	else
 	{
-		BfWriteByte(votePass, Data_GetTeam(vote));
-		BfWriteString(votePass, translation);
-		BfWriteString(votePass, details);
+		BfWrite bfVotePass = UserMessageToBfWrite(votePass);
+		bfVotePass.WriteByte(Data_GetTeam(vote));
+		bfVotePass.WriteString(translation);
+		bfVotePass.WriteString(details);
 	}
 	EndMessage();
 }
 
-TF2CSGO_DisplayVoteFail(Handle:vote, NativeVotesFailType:reason, client=0)
+void TF2CSGO_DisplayVoteFail(NativeVote vote, NativeVotesFailType reason, int client=0)
 {
-	new Handle:voteFailed;
+	Handle voteFailed;
 	if (!client)
 	{
 		voteFailed = StartMessageAll("VoteFailed", USERMSG_RELIABLE);
@@ -1430,29 +1412,33 @@ TF2CSGO_DisplayVoteFail(Handle:vote, NativeVotesFailType:reason, client=0)
 	
 	if(g_bUserBuf)
 	{
-		PbSetInt(voteFailed, "team", Data_GetTeam(vote));
-		PbSetInt(voteFailed, "reason", _:reason);
+		Protobuf pbVoteFailed = UserMessageToProtobuf(voteFailed);
+		pbVoteFailed.SetInt("team", Data_GetTeam(vote));
+		pbVoteFailed.SetInt("reason", view_as<int>(reason));
 	}
 	else
 	{
-		BfWriteByte(voteFailed, Data_GetTeam(vote));
-		BfWriteByte(voteFailed, _:reason);
+		BfWrite bfVoteFailed = UserMessageToBfWrite(voteFailed);
+		bfVoteFailed.WriteByte(Data_GetTeam(vote));
+		bfVoteFailed.WriteByte(view_as<int>(reason));
 	}
 	EndMessage();
 }
 
-TF2CSGO_DisplayCallVoteFail(client, NativeVotesCallFailType:reason, time)
+TF2CSGO_DisplayCallVoteFail(int client, NativeVotesCallFailType reason, int time)
 {
 	new Handle:callVoteFail = StartMessageOne("CallVoteFailed", client, USERMSG_RELIABLE);
 
 	if(g_bUserBuf)
 	{
-		PbSetInt(callVoteFail, "reason", _:reason);
-		PbSetInt(callVoteFail, "time", time);
+		Protobuf pbCallVoteFail = UserMessageToProtobuf(voteFailed);
+		pbCallVoteFail.SetInt("reason", view_as<int>(reason));
+		pbCallVoteFail.SetInt("time", time);
 	}
 	else
 	{
-		BfWriteByte(callVoteFail, _:reason);
+		BfWrite bfCallVoteFail = UserMessageToBfWrite(votePass);
+		BfWriteByte(callVoteFail, view_as<int>(reason));
 		BfWriteShort(callVoteFail, time);
 	}
 	EndMessage();
