@@ -1,0 +1,62 @@
+"Games"
+{
+	"csgo"
+	{
+		"Offsets"
+		{
+			"VoteMenu"			"0"
+			"VoteMenu Uses Translations"	"0"
+			"Multiple choice votes"		"0"
+			"Kick reasons"			"1"
+			"Vote Style"			"3"
+		}
+
+		"Keys"
+		{
+			
+			"Vote Start Kick Idle"		"#SFUI_vote_kick_player_idle"
+			"Vote Start Kick Scamming"	"#SFUI_vote_kick_player_scamming"
+			"Vote Start Kick Cheating"	"#SFUI_vote_kick_player_cheating"
+			"Vote Start Kick"		"#SFUI_vote_kick_player_other"
+			"Vote Start Kick Otherteam"	"#SFUI_otherteam_vote_kick_player"
+			"Vote Passed Kick"		"#SFUI_vote_passed_kick_player"
+
+			"Vote Start Restart"		"#SFUI_vote_restart_game"
+			"Vote Passed Restart"		"#SFUI_vote_passed_restart_game"
+
+			"Vote Start ChangeLevel"	"#SFUI_vote_changelevel"
+			"Vote Passed ChangeLevel"	"#SFUI_vote_passed_changelevel"
+
+			"Vote Start NextLevel"		"#SFUI_vote_nextlevel"
+			"Vote Start NextLevel Multiple"	"#SFUI_vote_nextlevel_choices"
+			"Vote Passed NextLevel"		"#SFUI_vote_passed_nextlevel"
+			"Vote Passed NextLevel Extend"	"#SFUI_vote_passed_nextlevel_extend"
+
+			"Vote Start Scramble"		"#SFUI_vote_scramble_teams"
+			"Vote Passed Scramble"		"#SFUI_vote_passed_scramble_teams"
+
+			"Vote Custom"			"#SFUI_Scoreboard_NormalPlayer"
+
+
+			/**
+			 * Game-Specific section below
+			 */
+
+			"Vote Start Swap Teams"		"#SFUI_vote_swap_teams"
+			"Vote Passed Swap Teams"	"#SFUI_vote_passed_swap_teams"
+
+			"Vote Start Surrender"		"#SFUI_vote_surrender"
+			"Vote Start Surrender Otherteam"	"#SFUI_otherteam_vote_surrender"
+			"Vote Passed Surrender"		"#SFUI_vote_passed_surrender"
+
+			"Vote Start Rematch"		"#SFUI_vote_rematch"
+			"Vote Passed Rematch"		"#SFUI_vote_passed_rematch"
+
+			"Vote Start Continue"		"#SFUI_vote_continue"
+			"Vote Start Continue Otherteam"	"#SFUI_otherteam_vote_continue_or_surrender"
+			"Vote Passed Continue"		"#SFUI_vote_passed_continue"
+
+			"Vote Start Otherteam"		"#SFUI_otherteam_vote_unimplemented"
+		}
+	}
+}

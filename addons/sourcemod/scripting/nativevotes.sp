@@ -42,6 +42,17 @@
 
 #include "include/nativevotes.inc"
 
+// These are the general vote styles
+// Most games use TF2/SDK2013 or CSGO / retail styles
+// Will be read from game data
+enum
+{
+	ValveVoteStyle_L4D = 0,
+	ValveVoteStyle_L4D2 = 1,
+	ValveVoteStyle_TF2 = 2,
+	ValveVoteStyle_CSGO = 3,
+}
+
 EngineVersion g_EngineVersion = Engine_Unknown;
 
 #include "nativevotes/data-keyvalues.sp"

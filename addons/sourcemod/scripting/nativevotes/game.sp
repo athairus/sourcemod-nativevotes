@@ -107,7 +107,7 @@
 #define TF2_VOTE_STRING_ETERNAWEEN			"Eternaween"
 
 // These are toggles, but the on and off versions are identical
-#define TF2_VOTE_STRING_AUTOBALANCE			"TeamAutoBalance" 
+#define TF2_VOTE_STRING_AUTOBALANCE			"TeamAutoBalance"
 #define TF2_VOTE_STRING_CLASSLIMIT			"ClassLimits"
 
 // Menu items for votes

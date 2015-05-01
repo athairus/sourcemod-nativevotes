@@ -1,0 +1,47 @@
+"Games"
+{
+	"#default"
+	{
+		"Offsets"
+		{
+			"VoteMenu"			"0"
+			"VoteMenu Uses Translations"	"0"
+			"Multiple choice votes"		"0"
+			"Kick reasons"			"0"
+			"Vote Style"			"1"
+		}
+
+		"Keys"
+		{
+			"Vote Start Kick"		"#L4D_vote_kick_player"
+			"Vote Passed Kick"		"#L4D_vote_passed_kick_player"
+
+			"Vote Start Restart"		"#L4D_vote_restart_game"
+			"Vote Passed Restart"		"#L4D_vote_passed_restart_game"
+
+			"Vote Start ChangeLevel"	"#L4D_vote_chapter_change"
+			"Vote Passed ChangeLevel"	"#L4D_vote_passed_chapter_change"
+
+			"Vote Start Change Difficulty"	"#L4D_vote_change_difficulty"
+			"Vote Passed Change Difficulty"	"#L4D_vote_passed_change_difficulty"
+
+			"Vote Custom"			"#L4D_TargetID_Player"
+
+			/**
+			 * Game-Specific section below
+			 */
+
+			"Vote Start Change Campaign"	"#L4D_vote_mission_change"
+			"Vote Passed Change Campaign"	"#L4D_vote_passed_mission_change"
+
+			"Vote Start Return to Lobby"	"#L4D_vote_return_to_lobby"
+			"Vote Passed Return to Lobby"	"#L4D_vote_passed_return_to_lobby"
+
+			"Vote Start Alltalk"		"#L4D_vote_alltalk_change"
+			"Vote Passed Alltalk"		"#L4D_vote_passed_alltalk_change"
+			"Vote Argument Alltalk On"	"#L4D_vote_alltalk_enable"
+			"Vote Argument Alltalk Off"	"#L4D_vote_alltalk_disable"
+
+		}
+	}
+}

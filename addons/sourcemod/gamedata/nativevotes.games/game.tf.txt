@@ -1,0 +1,91 @@
+"Games"
+{
+	"tf"
+	{
+		"Offsets"
+		{
+			"VoteMenu"			"1"
+			"VoteMenu Uses Translations"	"1"
+			"Multiple choice votes"		"1"
+			"Kick reasons"			"1"
+			"Vote Style"			"2"
+		}
+
+		"Keys"
+		{
+			"Callvote Kick"			"Kick"
+			"Callvote Restart"		"RestartGame"
+			"Callvote ChangeLevel"		"ChangeLevel"
+			"Callvote NextLevel"		"NextLevel"
+			"Callvote Scramble"		"ScrambleTeams"
+			"Callvote Change Difficulty"	"ChangeMission"
+			"Callvote AutoBalance"		"TeamAutoBalance"
+			"Callvote ClassLimits		"ClassLimits"
+
+			"Vote Menu Kick"		"#TF_Kick"
+			"Vote Menu Restart"		"#TF_RestartGame"
+			"Vote Menu ChangeLevel"		"#TF_ChangeLevel"
+			"Vote Menu NextLevel"		"#TF_NextLevel"
+			"Vote Menu Scramble"		"#TF_ScrambleTeams"
+			"Vote Menu Change Difficulty"	"#TF_ChangeMission"
+			"Vote Menu AutoBalance On"	"#TF_TeamAutoBalance_Enable"
+			"Vote Menu AutoBalance Off"	"#TF_TeamAutoBalance_Disable"
+			"Vote Menu ClassLimits On"	"#TF_ClassLimit_Enable"
+			"Vote Menu ClassLimits Off"	"#TF_ClassLimit_Disable"
+
+			
+			"Vote Start Kick Idle"		"#TF_vote_kick_player_idle"
+			"Vote Start Kick Scamming"	"#TF_vote_kick_player_scamming"
+			"Vote Start Kick Cheating"	"#TF_vote_kick_player_cheating"
+			"Vote Start Kick"		"#TF_vote_kick_player_other"
+			"Vote Passed Kick"		"#TF_vote_passed_kick_player"
+
+			"Vote Start Restart"		"#TF_vote_restart_game"
+			"Vote Passed Restart"		"#TF_vote_passed_restart_game"
+
+			"Vote Start ChangeLevel"	"#TF_vote_changelevel"
+			"Vote Passed ChangeLevel"	"#TF_vote_passed_changelevel"
+
+			"Vote Start NextLevel"		"#TF_vote_nextlevel"
+			"Vote Start NextLevel Multiple"	"#TF_vote_nextlevel_choices"
+			"Vote Passed NextLevel"		"#TF_vote_passed_nextlevel"
+			"Vote Passed NextLevel Extend"	"#TF_vote_passed_nextlevel_extend"
+
+			"Vote Start Scramble"		"#TF_vote_scramble_teams"
+			"Vote Start Scramble Round"	"#TF_vote_should_scramble_round"
+			"Vote Passed Scramble"		"#TF_vote_passed_scramble_teams"
+
+			"Vote Start Change Difficulty"	"#TF_vote_changechallenge"
+			"Vote Passed Change Difficulty"	"#TF_vote_passed_changechallenge"
+
+			"Vote Start Round Start"	"#TF_vote_td_start_round"
+			"Vote Passed Round Start"	"#TF_vote_passed_td_start_round"
+
+			"Vote Start AutoBalance On"	"#TF_vote_autobalance_enable"
+			"Vote Passed AutoBalance On"	"#TF_vote_passed_autobalance_enable"
+
+			"Vote Start AutoBalance Off"	"#TF_vote_autobalance_disable"
+			"Vote Passed AutoBalance Off"	"#TF_vote_passed_autobalance_disable"
+
+			"Vote Start ClassLimits On"	"#TF_vote_classlimits_enable"
+			"Vote Passed ClassLimits On"	"#TF_vote_passed_classlimits_enable"
+
+			"Vote Start ClassLimits Off"	"#TF_vote_classlimits_disable"
+			"Vote Passed ClassLimits Off"	"#TF_vote_passed_classlimits_disable"
+
+			"Vote Custom"			"#TF_playerid_noteam"
+
+			/**
+			 * Game-Specific section below
+			 */
+
+			"Callvote Eternaween"		"Eternaween"
+
+			"Vote Menu Eternaween"		"#TF_Eternaween"
+
+			"Vote Start Eternaween"		"#TF_vote_eternaween"
+			"Vote Passed Eternaween"	"#TF_vote_passed_eternaween"
+
+		}
+	}
+}

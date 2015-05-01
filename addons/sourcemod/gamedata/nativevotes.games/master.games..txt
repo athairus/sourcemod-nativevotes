@@ -1,0 +1,22 @@
+"Game Master"
+{
+	"game.csgo.txt"
+	{
+		"game"		"csgo"
+	}
+
+	"game.l4d.txt"
+	{
+		"game"		"left4dead"
+	}
+
+	"game.l4d2.txt"
+	{
+		"game"		"left4dead2"
+	}
+
+	"game.tf.txt"
+	{
+		"game"		"tf"
+	}
+}

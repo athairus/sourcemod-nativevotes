@@ -1,0 +1,65 @@
+"Games"
+{
+	"insurgency"
+	{
+		"Offsets"
+		{
+			"VoteMenu"			"0"
+			"VoteMenu Uses Translations"	"0"
+			"Multiple choice votes"		"0"
+			"Kick reasons"			"1"
+			"Vote Style"			"3"
+		}
+
+		"Keys"
+		{
+			"Vote Kick Reasons"			"Idle,Trolling,Teamkilling,Cheating"
+			
+			"Vote Start Kick Idle"		"#GameUI_vote_kick_player_idle"
+			"Vote Start Kick Trolling"	"#GameUI_vote_kick_player_trolling"
+			"Vote Start Kick Cheating"	"#GameUI_vote_kick_player_cheating"
+			"Vote Start Kick TeamKilling"	"#GameUI_vote_kick_player_teamkilling"
+			"Vote Start Kick"			"#GameUI_vote_kick_player"
+			"Vote Passed Kick"			"#GameUI_vote_passed_kick_player""
+
+			"Vote Start Restart"		"#GameUI_vote_restart_game"
+			"Vote Passed Restart"		"#GameUI_vote_passed_restart_game"
+
+			"Vote Start ChangeLevel"	"#GameUI_vote_changelevel"
+			"Vote Passed ChangeLevel"	"#GameUI_vote_passed_changelevel"
+
+			"Vote Start NextLevel"		"#GameUI_vote_nextlevel"
+			"Vote Start NextLevel Multiple"	"#GameUI_vote_nextlevel_choices"
+			"Vote Passed NextLevel"		"#GameUI_vote_passed_nextlevel"
+			"Vote Passed NextLevel Extend"	"#GameUI_vote_passed_nextlevel_extend"
+
+			"Vote Start Scramble"		"#GameUI_vote_scramble_teams"
+			"Vote Passed Scramble"		"#GameUI_vote_passed_scramble_teams"
+
+			"Vote Custom"			"#SFUI_Scoreboard_NormalPlayer"
+
+
+			/**
+			 * Game-Specific section below
+			 */
+
+			"Vote Passed Ban"			"#GameUI_vote_passed_ban_player"
+			
+			"Vote Start Swap Teams"		"#GameUI_vote_switch_teams"
+			"Vote Passed Swap Teams"	"#GameUI_vote_passed_switch_teams"
+
+			"Vote Start Surrender"		"#SFUI_vote_surrender"
+			"Vote Start Surrender Otherteam"	"#SFUI_otherteam_vote_surrender"
+			"Vote Passed Surrender"		"#SFUI_vote_passed_surrender"
+
+			"Vote Start Restart Round"	"#GameUI_vote_restart_round"
+			"Vote Passed Restart Round"	"#GameUI_vote_passed_restart_round"
+
+			"Vote Start Continue"		"#SFUI_vote_continue"
+			"Vote Start Continue Otherteam"	"#SFUI_otherteam_vote_continue_or_surrender"
+			"Vote Passed Continue"		"#SFUI_vote_passed_continue"
+
+			"Vote Start Otherteam"		"#SFUI_otherteam_vote_unimplemented"
+		}
+	}
+}
