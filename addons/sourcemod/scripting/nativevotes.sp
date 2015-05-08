@@ -42,17 +42,6 @@
 
 #include "include/nativevotes.inc"
 
-// These are the general vote styles
-// Most games use TF2/SDK2013 or CSGO / retail styles
-// Will be read from game data
-enum
-{
-	ValveVoteStyle_L4D = 0,
-	ValveVoteStyle_L4D2 = 1,
-	ValveVoteStyle_TF2 = 2,
-	ValveVoteStyle_CSGO = 3,
-}
-
 EngineVersion g_EngineVersion = Engine_Unknown;
 
 #include "nativevotes/data-keyvalues.sp"
@@ -2279,7 +2268,7 @@ public int Native_RedrawVoteTitle(Handle plugin, int numParams)
 	
 	NativeVotesType voteType = Data_GetType(g_hCurVote);
 	
-	if (voteType != NativeVotesType_Custom_Mult && voteType != NativeVotesType_Custom_YesNo)
+	if (!NativeVotes_IsTypeCustom(voteType))
 	{
 		return view_as<int>(Plugin_Continue);
 	}
@@ -2296,7 +2285,9 @@ public int Native_RedrawVoteItem(Handle plugin, int numParams)
 		ThrowNativeError(SP_ERROR_NATIVE, "You can only call this once from a MenuAction_DisplayItem callback");
 	}
 	
-	if (Game_GetMaxItems() == L4DL4D2_COUNT)
+	NativeVotesType voteType = Data_GetType(g_hCurVote);
+	
+	if (!NativeVotes_IsTypeMultipleChoice(voteType))
 	{
 		return view_as<int>(Plugin_Continue);
 	}

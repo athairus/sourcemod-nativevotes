@@ -115,6 +115,32 @@ enum NativeVotesType
 	NativeVotesType_ClassLimitsOff,	/**< TF2: Yes/No, details are ignored */
 };
 
+stock bool NativeVotes_IsTypeCustom(NativeVotesType voteType)
+{
+	switch(voteType)
+	{
+		case NativeVotesType_Custom_Mult, NativeVotesType_Custom_YesNo:
+		{
+			return true;
+		}
+	}
+	
+	return false;
+}
+
+stock bool NativeVotes_IsTypeMultipleChoice(NativeVotesType voteType)
+{
+	switch(voteType)
+	{
+		case NativeVotesType_NextLevelMult, NativeVotesType_Custom_Mult:
+		{
+			return true;
+		}
+	}
+	
+	return false;
+}
+
 enum NativeVotesPassType
 {
 	NativeVotesPass_None = 0,			/**< Special placeholder for error value */
@@ -1421,6 +1447,135 @@ stock void NativeVotes_GetInfo(int param2, int &winningVotes, int &totalVotes)
 	winningVotes = param2 & 0xFFFF;
 	totalVotes = param2 >> 16;
 }
+
+//------------------------------------------------------------------------------------------------
+// Game plugin callbacks
+
+// These are the general vote styles
+// Most games use TF2/SDK2013 or CSGO / retail styles
+enum NativeVotes_VoteStyle
+{
+	ValveVoteStyle_None,		/**< Used to denote a value not yet set */
+	ValveVoteStyle_L4D,			/**< L4D style. Only uses events */
+	ValveVoteStyle_L4D2,		/**< L4D2 style. Mixes L4D events with usermessages */
+	ValveVoteStyle_TF2,			/**< TF2 style.  Uses mainly usermessages with a smattering of events.  Generally supports VoteCommands. */
+	ValveVoteStyle_CSGO,		/**< CSGO style. Similar to TF2 style, but uses protobuf usermessages */
+}
+
+/**
+ * Check if a vote controller entity is valid
+ * If not, get a new reference to it.
+ * If that fails, return false.
+ * 
+ * @param controllerEntity	A reference to the ent reference of the vote_controller entity (-1 if not set)
+ * @return				true if found, false if not.
+ */
+stock bool NativeVotes_CheckVoteController(int &controllerEntity) {
+	int entity = INVALID_ENT_REFERENCE;
+	if (controllerEntity != -1)
+	{
+		entity = EntRefToEntIndex(controllerEntity);
+	}
+	
+	if (entity == INVALID_ENT_REFERENCE)
+	{
+		entity = FindEntityByClassname(-1, "vote_controller");
+		if (entity == -1)
+		{
+			//LogError("Could not find Vote Controller.");
+			return false;
+		}
+		
+		controllerEntity = EntIndexToEntRef(entity);
+	}
+	return true;	
+}
+
+/**
+ * Get the maximum number of items allowed in a multiple choice vote.
+ * 
+ * @return			The number of items.
+ */
+typedef NativeVotes_Game_GetMaxItems = function int();
+
+/**
+ * Is a vote type valid for this game?
+ * 
+ * @param type		The vote type
+ * @return			True if the vote is supported, false if not
+ */
+typedef NativeVotes_Game_CheckVoteType = function bool(NativeVotesType type);
+
+/**
+ * Is a vote pass type valid for this game?
+ * 
+ * @param type		The vote pass type
+ * @return			True if the vote is supported, false if not
+ */
+typedef NativeVotes_Game_CheckVotePassType = function bool(NativeVotesPassType passType);
+
+/**
+ * From a callvote command, display the list of votes.
+ * Only valid for TF2 and CS:GO style votes.
+ * 
+ * CS:GO itself doesn't implement this.
+ * 
+ * @param client		client who asked for the vote menu
+ * @param hVoteTypes	list of votes to display
+ */
+typedef NativeVotes_Game_DisplayVoteSetup = function void(int client, ArrayList hVoteType);
+
+/**
+ * From a callvote command, get the list of default vote types
+ * 
+ * This is used by the VoteCommand system to add the default votes back to the game
+ * 
+ * @param hVoteTypes	An empty vote list that should be populated
+ */
+typedef NativeVotes_Game_AddDefaultVotes = function void(ArrayList hVoteTypes);
+
+
+/**
+ * From a callvote command, determine the kick vote type and target.
+ * If not implemented or returns NativeVotesKickType_None, this will assumed NativeVotesKickType_Generic
+ * and treat the param as the target's userid
+ *
+ * Note: This MUST be implemented for TF2 and Insurgency
+ *
+ * @param param1		The parameter passed in from callvote
+ * @param target		An out parameter for the target.
+ */
+typedef NativeVotes_Game_GetKickType = function NativeVotesKickType(const char[] param1, int &target);
+
+/**
+ * Register a game plugin.
+ * 
+ * Note: The system will only let you register ONE game plugin.  This is intentional, as it should
+ * have all the logic for processing that a specific game needs.
+ * 
+ * @param voteStyle	Which Valve vote style this uses.  This changes NativeVotes internal behavior.
+ * @param checktype	Function to check if a particular vote type is supported.
+ * @param checkPassType	Function to check if a particular vote pass type is supported.
+ * @param maxItems	The most items this game supports on a multiple-choice vote
+ */
+native void NativeVotes_RegisterGamePlugin(NativeVotes_VoteStyle voteStyle,
+										  NativeVotes_Game_CheckVoteType checktype,
+										  NativeVotes_Game_CheckVotePassType checkPassType,
+  										  NativeVotes_Game_GetMaxItems maxItems=0);
+
+native void NativeVotes_UnregisterGamePlugin(NativeVotes_Game_GetMaxItems maxItems,
+											NativeVotes_Game_CheckVoteType checktype,
+											NativeVotes_Game_CheckVotePassType checkPassType);
+
+native void NativeVotes_Game_RegisterCallVote(NativeVotes_Game_DisplayVoteSetup voteSetup,
+											 NativeVotes_Game_GetKickType kickType,
+											 NativeVotes_Game_AddDefaultVotes defaultVotes=INVALID_FUNCTION
+											 );
+
+native void NativeVotes_Game_UnregisterCallVote(NativeVotes_Game_DisplayVoteSetup voteSetup,
+											   NativeVotes_Game_GetKickType kickType,
+											   NativeVotes_Game_AddDefaultVotes defaultVotes=INVALID_FUNCTION
+											   );
 
 /**
  * Do not edit below this line!
