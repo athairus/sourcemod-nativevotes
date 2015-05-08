@@ -19,4 +19,9 @@
 	{
 		"game"		"tf"
 	}
+
+	"engine.insurgency.txt"
+	{
+		"engine"	"insurgency"
+	}
 }
